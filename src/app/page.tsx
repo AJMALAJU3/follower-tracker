@@ -145,7 +145,6 @@ export default function InstagramAnalyzer() {
         <ins className="adsbygoogle"
           style={{ display: "block", width: "100%", height: "90px" }}
           data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT}
-          data-ad-slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_ID}
           data-ad-format="auto"
           data-full-width-responsive="true"></ins>
       </div>
