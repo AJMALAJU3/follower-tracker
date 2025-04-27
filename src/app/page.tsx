@@ -242,7 +242,7 @@ export default function InstagramAnalyzer() {
                 </TabsList>
 
                 <TabsContent value="followers" >
-                  <UserList  users={result.followers || []} title="People who follow you" />
+                  <UserList users={result.followers || []} title="People who follow you" />
                 </TabsContent>
 
                 <TabsContent value="following">
@@ -323,8 +323,18 @@ function UserList({
                 </div>
                 <div>
                   <p className="font-medium">{user.username}</p>
-                  {user.url && <a href={user.url} className="text-xs text-muted-foreground hover:text-blue-400 cursor-pointer">{user.url}</a>}
+                  {user.url && (
+                    <a
+                      href={user.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-muted-foreground hover:text-blue-400 cursor-pointer"
+                    >
+                      {user.url}
+                    </a>
+                  )}
                 </div>
+
               </li>
             ))}
           </ul>
