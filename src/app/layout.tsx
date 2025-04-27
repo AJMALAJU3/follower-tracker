@@ -32,6 +32,8 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7927670861272291"
           crossOrigin="anonymous"
         />
+        <title>Instagram Analyzer - Analyze Followers & Following</title>
+        <meta name="description" content="Upload and analyze your Instagram followers and following JSON data to see who follows you back and who doesn't." />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
