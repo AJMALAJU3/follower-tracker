@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Upload } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import Link from "next/link"
 
 type User = {
   username: string
@@ -134,8 +135,7 @@ export default function InstagramAnalyzer() {
   }
 
   const resetAnalysis = () => {
-    setResult(null)
-    setError(null)
+    window.location.reload()
   }
 
   return (
@@ -282,6 +282,20 @@ export default function InstagramAnalyzer() {
           )}
         </CardContent>
       </Card>
+
+      <div className="text-center mt-12 text-sm text-muted-foreground">
+        <Link href="/privacy-policy" className="hover:underline">
+          Privacy Policy
+        </Link>{" "}
+        |{" "}
+        <Link href="/terms" className="hover:underline">
+          Terms of Service
+        </Link>{" "}
+        |{" "}
+        <Link href="/contact" className="hover:underline">
+          Contact
+        </Link>
+      </div>
     </div>
   )
 }
@@ -321,19 +335,18 @@ function UserList({
                     user.username.charAt(0).toUpperCase()
                   )}
                 </div>
-                <div>
+                <a href={user.url}
+                  target="_blank"
+                  rel="noopener noreferrer">
                   <p className="font-medium">{user.username}</p>
                   {user.url && (
-                    <a
-                      href={user.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <div
                       className="text-xs text-muted-foreground hover:text-blue-400 cursor-pointer"
                     >
                       {user.url}
-                    </a>
+                    </div>
                   )}
-                </div>
+                </a>
 
               </li>
             ))}
