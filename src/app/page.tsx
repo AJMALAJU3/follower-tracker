@@ -10,6 +10,7 @@ import { Upload } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Link from "next/link"
+import Script from "next/script"
 
 type User = {
   username: string
@@ -140,6 +141,15 @@ export default function InstagramAnalyzer() {
 
   return (
     <div className="container mx-auto py-8 md:px-4">
+      <div className="my-8 flex justify-center">
+        <ins className="adsbygoogle"
+          style={{ display: "block", width: "100%", height: "90px" }}
+          data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT}
+          data-ad-slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_ID}
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      </div>
+
       <Card className="w-full max-w-4xl mx-auto border-none shadow-none md:border md:shadow">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Instagram Followers/Following Analyzer</CardTitle>
@@ -282,19 +292,19 @@ export default function InstagramAnalyzer() {
           )}
         </CardContent>
 
-      <div className="text-center mt-12 text-sm text-muted-foreground">
-        <Link href="/privacy-policy" className="hover:underline">
-          Privacy Policy
-        </Link>{" "}
-        |{" "}
-        <Link href="/terms" className="hover:underline">
-          Terms of Service
-        </Link>{" "}
-        |{" "}
-        <Link href="/contact" className="hover:underline">
-          Contact
-        </Link>
-      </div>
+        <div className="text-center mt-12 text-sm text-muted-foreground">
+          <Link href="/privacy-policy" className="hover:underline">
+            Privacy Policy
+          </Link>{" "}
+          |{" "}
+          <Link href="/terms" className="hover:underline">
+            Terms of Service
+          </Link>{" "}
+          |{" "}
+          <Link href="/contact" className="hover:underline">
+            Contact
+          </Link>
+        </div>
       </Card>
     </div>
   )
