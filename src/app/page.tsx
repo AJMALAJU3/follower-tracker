@@ -273,7 +273,7 @@ export default function InstagramAnalyzer() {
               <p className="text-muted-foreground mb-4">
                 Upload your Instagram followers and following JSON files to see the analysis.
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm  text-green-700 font-semibold">
                 You can download your Instagram data from your Instagram account settings.
                 <br />
                 Go to Settings → Privacy and Security → Data Download → Request Download
@@ -281,7 +281,6 @@ export default function InstagramAnalyzer() {
             </div>
           )}
         </CardContent>
-      </Card>
 
       <div className="text-center mt-12 text-sm text-muted-foreground">
         <Link href="/privacy-policy" className="hover:underline">
@@ -296,6 +295,7 @@ export default function InstagramAnalyzer() {
           Contact
         </Link>
       </div>
+      </Card>
     </div>
   )
 }
