@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Upload, Users, UserCheck, UserMinus, UserX } from "lucide-react"
+import { Upload } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
@@ -39,14 +39,12 @@ export default function InstagramAnalyzer() {
       const fileContent = await readFileAsText(file)
       const jsonData = JSON.parse(fileContent)
 
-      // Extract users from the JSON data
       const users = extractUsersFromJson(jsonData, type)
 
       if (users.length === 0) {
         throw new Error(`No ${type} found in the JSON file. Please check the format.`)
       }
 
-      // Update the result state based on the file type
       setResult((prevResult) => {
         const newResult = { ...prevResult } as AnalysisResult
 
@@ -56,7 +54,6 @@ export default function InstagramAnalyzer() {
           newResult.following = users
         }
 
-        // If both followers and following are available, calculate the differences
         if (newResult.followers && newResult.following) {
           newResult.notFollowingBack = findNotFollowingBack(newResult.following, newResult.followers)
           newResult.youDontFollowBack = findNotFollowingBack(newResult.followers, newResult.following)
@@ -81,9 +78,7 @@ export default function InstagramAnalyzer() {
   }
 
   const extractUsersFromJson = (data: any, type: "followers" | "following"): User[] => {
-    // Try different possible JSON structures
     if (Array.isArray(data)) {
-      // Direct array of users
       return data
         .map((user) => ({
           username: user.username || user.string_list_data?.[0]?.value || "",
@@ -93,7 +88,6 @@ export default function InstagramAnalyzer() {
         .filter((user) => user.username)
     }
 
-    // Instagram export format
     if (data.relationships_followers && type === "followers") {
       return data.relationships_followers
         .map((item: any) => ({
@@ -112,7 +106,6 @@ export default function InstagramAnalyzer() {
         .filter((user: User) => user.username)
     }
 
-    // Try to find users in nested structures
     for (const key in data) {
       if (typeof data[key] === "object" && data[key] !== null) {
         if (Array.isArray(data[key])) {
@@ -127,7 +120,6 @@ export default function InstagramAnalyzer() {
             }))
           }
         } else {
-          // Recursively search for users in nested objects
           const users = extractUsersFromJson(data[key], type)
           if (users.length > 0) return users
         }
@@ -147,8 +139,8 @@ export default function InstagramAnalyzer() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <Card className="w-full max-w-4xl mx-auto">
+    <div className="container mx-auto py-8 md:px-4">
+      <Card className="w-full max-w-4xl mx-auto border-none shadow-none md:border md:shadow">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Instagram Followers/Following Analyzer</CardTitle>
           <CardDescription>
@@ -220,35 +212,37 @@ export default function InstagramAnalyzer() {
               </div>
 
               <Tabs defaultValue="followers" className="w-full">
-                <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-4">
-                  <TabsTrigger value="followers" className="flex items-center gap-2">
-                    <Users size={16} />
+                <TabsList className="grid grid-cols-2 md:grid-cols-4 bg-transparent mb-4 gap-1">
+                  <TabsTrigger value="followers" className="flex gap-2 text-[12px] bg-muted">
                     <span>All Followers</span>
-                    {result.followers && <span className="ml-1 text-xs">({result.followers.length})</span>}
+                    {result.followers && <span className="ml-1">({result.followers.length})</span>}
                   </TabsTrigger>
-                  <TabsTrigger value="following" className="flex items-center gap-2">
-                    <UserCheck size={16} />
-                    <span>All Following</span>
-                    {result.following && <span className="ml-1 text-xs">({result.following.length})</span>}
-                  </TabsTrigger>
-                  <TabsTrigger value="not-following-back" className="flex items-center gap-2">
-                    <UserX size={16} />
-                    <span>Not Following Back</span>
+                  <TabsTrigger value="not-following-back" className="flex gap-2 text-[12px] bg-muted md:hidden">
+                    <span>Not Follows back</span>
                     {result.notFollowingBack && (
-                      <span className="ml-1 text-xs">({result.notFollowingBack.length})</span>
+                      <span className="ml-1">({result.notFollowingBack.length})</span>
                     )}
                   </TabsTrigger>
-                  <TabsTrigger value="you-dont-follow" className="flex items-center gap-2">
-                    <UserMinus size={16} />
-                    <span>You Don't Follow</span>
+                  <TabsTrigger value="following" className="flex gap-2 text-[12px] bg-muted">
+                    <span>All Following</span>
+                    {result.following && <span className="ml-1">({result.following.length})</span>}
+                  </TabsTrigger>
+                  <TabsTrigger value="not-following-back" className="md:flex gap-2 text-[12px] bg-muted hidden">
+                    <span>Not Follows back</span>
+                    {result.notFollowingBack && (
+                      <span className="ml-1">({result.notFollowingBack.length})</span>
+                    )}
+                  </TabsTrigger>
+                  <TabsTrigger value="you-dont-follow" className="flex gap-2 text-[12px] bg-muted">
+                    <span>Not Following back</span>
                     {result.youDontFollowBack && (
-                      <span className="ml-1 text-xs">({result.youDontFollowBack.length})</span>
+                      <span className="ml-1">({result.youDontFollowBack.length})</span>
                     )}
                   </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="followers">
-                  <UserList users={result.followers || []} title="People who follow you" />
+                <TabsContent value="followers" >
+                  <UserList  users={result.followers || []} title="People who follow you" />
                 </TabsContent>
 
                 <TabsContent value="following">
@@ -306,16 +300,16 @@ function UserList({
   }
 
   return (
-    <Card>
+    <Card className="border-none shadow-none">
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
         <CardDescription>{users.length} users</CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[300px]">
+        <ScrollArea>
           <ul className="space-y-2">
             {users.map((user, index) => (
-              <li key={index} className="p-2 hover:bg-muted rounded-md flex items-center">
+              <li key={index} className="p-1 hover:bg-muted rounded-md flex items-center">
                 <div className="w-8 h-8 rounded-full bg-muted-foreground/20 flex items-center justify-center text-sm mr-3">
                   {user.profile_pic_url ? (
                     <img
