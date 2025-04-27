@@ -12,7 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 
 type User = {
   username: string
-  full_name?: string
+  url?: string
   profile_pic_url?: string
 }
 
@@ -87,7 +87,7 @@ export default function InstagramAnalyzer() {
       return data
         .map((user) => ({
           username: user.username || user.string_list_data?.[0]?.value || "",
-          full_name: user.full_name || user.string_list_data?.[0]?.href || "",
+          url: user.url || user.string_list_data?.[0]?.href || "",
           profile_pic_url: user.profile_pic_url || "",
         }))
         .filter((user) => user.username)
@@ -98,7 +98,7 @@ export default function InstagramAnalyzer() {
       return data.relationships_followers
         .map((item: any) => ({
           username: item.string_list_data?.[0]?.value || "",
-          full_name: item.string_list_data?.[0]?.href || "",
+          url: item.string_list_data?.[0]?.href || "",
         }))
         .filter((user: User) => user.username)
     }
@@ -107,7 +107,7 @@ export default function InstagramAnalyzer() {
       return data.relationships_following
         .map((item: any) => ({
           username: item.string_list_data?.[0]?.value || "",
-          full_name: item.string_list_data?.[0]?.href || "",
+          url: item.string_list_data?.[0]?.href || "",
         }))
         .filter((user: User) => user.username)
     }
@@ -122,7 +122,7 @@ export default function InstagramAnalyzer() {
           if (users.length > 0) {
             return users.map((user: any) => ({
               username: user.username || user.string_list_data?.[0]?.value || "",
-              full_name: user.full_name || user.string_list_data?.[0]?.href || "",
+              url: user.url || user.string_list_data?.[0]?.href || "",
               profile_pic_url: user.profile_pic_url || "",
             }))
           }
@@ -329,7 +329,7 @@ function UserList({
                 </div>
                 <div>
                   <p className="font-medium">{user.username}</p>
-                  {user.full_name && <p className="text-xs text-muted-foreground">{user.full_name}</p>}
+                  {user.url && <a href={user.url} className="text-xs text-muted-foreground hover:text-blue-400 cursor-pointer">{user.url}</a>}
                 </div>
               </li>
             ))}
